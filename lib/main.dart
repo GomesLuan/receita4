@@ -15,7 +15,52 @@ var dataObjects = [
     "name": "Duvel", 
     "style": "Pilsner", 
     "ibu": "82"
-  }
+  },
+  {
+    "name": "Cerveja 1",
+    "style": "Genérico",
+    "ibu": "01"
+  },
+  {
+    "name": "Cerveja 2",
+    "style": "Genérico",
+    "ibu": "02"
+  },
+  {
+    "name": "Cerveja 3",
+    "style": "Genérico",
+    "ibu": "03"
+  },
+  {
+    "name": "Cerveja 4",
+    "style": "Genérico",
+    "ibu": "04"
+  },
+  {
+    "name": "Cerveja 5",
+    "style": "Genérico",
+    "ibu": "05"
+  },
+  {
+    "name": "Cerveja 6",
+    "style": "Genérico",
+    "ibu": "06"
+  },
+  {
+    "name": "Cerveja 7",
+    "style": "Genérico",
+    "ibu": "07"
+  },
+  {
+    "name": "Cerveja 8",
+    "style": "Genérico",
+    "ibu": "08"
+  },
+  {
+    "name": "Cerveja 9",
+    "style": "Genérico",
+    "ibu": "09"
+  },
 ];
 
 void main() {
@@ -76,21 +121,23 @@ class DataBodyWidget extends StatelessWidget {
     var columnNames = ["Nome","Estilo","IBU"],
         propertyNames = ["name", "style", "ibu"];
 
-    return DataTable(
-      columns: columnNames.map( 
-        (name) => DataColumn(
-          label: Expanded(
-            child: Text(name, style: TextStyle(fontStyle: FontStyle.italic))
+    return SingleChildScrollView(
+      child: DataTable(
+        columns: columnNames.map( 
+          (name) => DataColumn(
+            label: Expanded(
+              child: Text(name, style: TextStyle(fontStyle: FontStyle.italic))
+            )
           )
-        )
-      ).toList(),
-      rows: objects.map( 
-        (obj) => DataRow(
-          cells: propertyNames.map(
-            (propName) => DataCell(Text(obj[propName]))
-          ).toList()
-        )
-      ).toList()
+        ).toList(),
+        rows: objects.map( 
+          (obj) => DataRow(
+            cells: propertyNames.map(
+              (propName) => DataCell(Text(obj[propName]))
+            ).toList()
+          )
+        ).toList()
+      )
     );
   }
 }
