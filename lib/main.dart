@@ -62,6 +62,8 @@ var dataObjects = [
     "ibu": "09"
   },
 ];
+var beerColumnNames = ["Nome","Estilo","IBU"];
+
 
 void main() {
   MyApp app = MyApp();
@@ -78,7 +80,10 @@ class MyApp extends StatelessWidget {
         appBar: AppBar( 
           title: const Text("Dicas"),
         ),
-        body: DataBodyWidget(objects:dataObjects),
+        body: DataBodyWidget(
+          objects: dataObjects, 
+          columnNames: beerColumnNames,
+        ),
         bottomNavigationBar: NewNavBar(),
       )
     );
@@ -112,15 +117,16 @@ class NewNavBar extends StatelessWidget {
 }
 
 class DataBodyWidget extends StatelessWidget {
-  final List objects;
+  final List<Map> objects;
+  final List columnNames;
 
-  DataBodyWidget( {this.objects = const [] });
+  DataBodyWidget( {
+    this.objects = const [], 
+    this.columnNames = const [], 
+  });
 
   @override
   Widget build(BuildContext context) {
-    var columnNames = ["Nome","Estilo","IBU"],
-        propertyNames = ["name", "style", "ibu"];
-
     return SingleChildScrollView(
       child: DataTable(
         columns: columnNames.map( 
@@ -132,7 +138,7 @@ class DataBodyWidget extends StatelessWidget {
         ).toList(),
         rows: objects.map( 
           (obj) => DataRow(
-            cells: propertyNames.map(
+            cells: obj.keys.map(
               (propName) => DataCell(Text(obj[propName]))
             ).toList()
           )
