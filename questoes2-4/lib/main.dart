@@ -62,8 +62,8 @@ var dataObjects = [
     "ibu": "09"
   },
 ];
-var beerColumnNames = ["Nome","Estilo","IBU"];
-
+var beerLabelNames = ["Estilo","IBU"];
+var tileLeading = Icon(Icons.local_drink_rounded);
 
 void main() {
   MyApp app = MyApp();
@@ -82,7 +82,8 @@ class MyApp extends StatelessWidget {
         ),
         body: MytileWidget(
           objects: dataObjects, 
-          columnNames: beerColumnNames,
+          labels: beerLabelNames,
+          leadingIcon: tileLeading,
         ),
         bottomNavigationBar: NewNavBar(),
       )
@@ -118,32 +119,31 @@ class NewNavBar extends StatelessWidget {
 
 class MytileWidget extends StatelessWidget {
   final List<Map> objects;
-  final List columnNames;
+  final List<String> labels;
+  final Icon leadingIcon;
 
   MytileWidget( {
     this.objects = const [], 
-    this.columnNames = const [], 
+    this.labels = const [], 
+    this.leadingIcon = const Icon(Icons.more_vert)
   });
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: DataTable(
-        columns: columnNames.map( 
-          (name) => DataColumn(
-            label: Expanded(
-              child: Text(name, style: TextStyle(fontStyle: FontStyle.italic))
+    return ListView(
+      children: ListTile.divideTiles(
+        context: context, 
+        tiles: objects.map(
+          (obj) => ListTile(
+            leading: leadingIcon,
+            title: Text('${obj[obj.keys.toList()[0]]}'),
+            subtitle: Text(
+              labels.fold('', (v, e) => '$v $e: ${obj[obj.keys.toList()[labels.indexOf(e)+1]]}\n'),
+              maxLines: labels.length,
             )
           )
-        ).toList(),
-        rows: objects.map( 
-          (obj) => DataRow(
-            cells: obj.keys.map(
-              (propName) => DataCell(Text(obj[propName]))
-            ).toList()
-          )
         ).toList()
-      )
+      ).toList()
     );
   }
 }
